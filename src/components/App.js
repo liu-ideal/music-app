@@ -1,8 +1,9 @@
 import Rotat_play from "./Rotat_play";
+import Test from "./Test";
 
 export default{
   name:"app",
-  template:"<div>app<Rotat_play :imgUrl=imgUrl></Rotat_play></div>",
+  template:"<div>app<Rotat_play :imgUrl=imgUrl></Rotat_play><Test/></div>",
   data(){
     return{
       num:1,
@@ -10,6 +11,6 @@ export default{
     }
   },
   components:{
-    Rotat_play
+    Rotat_play,Test
   }
 }
