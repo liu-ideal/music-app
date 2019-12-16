@@ -14,9 +14,8 @@
 </div>
 </template>
 <script>
-import globalData from "../../utils/globalData.js";
-//setInterval(()=>{console.log(globalData);},1000);
-window.addEventListener("load",()=>{},false)
+let globalData =require("../../utils/globalData.js");
+
 export default{
   name:"Rotat_play",
   data(){
@@ -25,29 +24,34 @@ export default{
       showIndex:0,
       LeftNeedLight:false,
       rightNeedLight:false,
+      playTimer:''
     }
   },
   props:[
     `imgUrl`
   ],
   mounted(){
-    console.log(globalData);
-     window.addEventListener("load",function(){console.log(globalData);},false)
+
+    this.turnPlay();
   },
   methods:{
     goleft(){
+      clearInterval(this.playTimer);
       if(this.showIndex===0){
         this.showIndex=this.imgUrl.length-1;
         return;
       }
       this.showIndex--;
+      this.turnPlay();
     },
     goright(){
+      clearInterval(this.playTimer);
       if(this.showIndex===this.imgUrl.length-1){
         this.showIndex=0;
         return;
       }
       this.showIndex++;
+      this.turnPlay();
     },
     controllerNeedLight(e){
       if(e.target.childNodes[0].data==="left"){
@@ -63,6 +67,13 @@ export default{
       }else{
         this.rightNeedLight=false;
       }
+    },
+    turnPlay(){
+      this.playTimer=setInterval(()=>{
+        if(this.showIndex===this.imgUrl.length-1){this.showIndex=0;return}
+        this.showIndex++;
+    },3000);
+
     }
   }
 }
