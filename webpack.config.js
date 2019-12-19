@@ -75,7 +75,7 @@ module.exports={
     //   ignoreOrder: false // Enable to remove warnings about conflicting order
     // }),
     new HtmlWebpackPlugin({
-      template:'./index.html',
+      template:'./src/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,

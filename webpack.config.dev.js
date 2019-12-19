@@ -80,10 +80,11 @@ module.exports={
   devServer:{
     contentBase: false,
     compress: true,
-    port: 9999,
+    port: 3000,
     hot:true,
-    proxy: {
-  "/api": "http://localhost:3000"
-}
+    host:"127.0.0.1"
+//     proxy: {
+//   "/api": "http://localhost:3000"
+// }
   }
 }

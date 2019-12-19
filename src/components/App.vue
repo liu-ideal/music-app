@@ -29,7 +29,7 @@
   </div>
 </div>
 <div class="last_content_nav">
-  <p class="selected" v-for="(item index) in lastContentNavList">{{item}}</p>
+<p v-for="(item,index) in lastContentNavList" :class="{selected:listSelectedIndex===index}" v-tap="toAddSelected.bind(this,index)">{{item}}</p>
 </div>
 </div>
 </template>
@@ -44,7 +44,8 @@ export default{
     return{
       num:1,
       imgUrl:[require("../../assets/images/lb1.jpg"),require("../../assets/images/lb2.jpg"),require("../../assets/images/lb3.jpg"),require("../../assets/images/lb4.jpg")],
-      lastContentNavList:["新歌","视频","歌单"]
+      lastContentNavList:["新歌","视频","歌单"],
+      listSelectedIndex:0
     }
   },
   components:{
@@ -59,6 +60,10 @@ export default{
     },
     toSearchPage(){
 
+    },
+    toAddSelected(index){
+      this.listSelectedIndex=index;
+      console.log(index);
     }
   }
 }
