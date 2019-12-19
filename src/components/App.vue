@@ -9,15 +9,27 @@
 </M_header>
   <Rotat_play :imgUrl=imgUrl class='rotat_play'></Rotat_play>
 <div class="list_content">
-  <div class="recommend_entry">
+  <div class="recommend_entry_wrap">
+   <div class="recommend_entry">
 
+   </div>
+   <p>推荐</p>
   </div>
-  <div class="ranking_entry">
+  <div class="ranking_entry_wrap">
+    <div class="ranking_entry">
 
+    </div>
+    <p>排行</p>
   </div>
-  <div class="songlist_entry">
+  <div class="songlist_entry_wrap">
+    <div class="songlist_entry">
 
+    </div>
+    <p>歌单</p>
   </div>
+</div>
+<div class="last_content_nav">
+  <p class="selected" v-for="(item index) in lastContentNavList">{{item}}</p>
 </div>
 </div>
 </template>
@@ -31,7 +43,8 @@ export default{
   data(){
     return{
       num:1,
-      imgUrl:[require("../../assets/images/lb1.jpg"),require("../../assets/images/lb2.jpg"),require("../../assets/images/lb3.jpg"),require("../../assets/images/lb4.jpg")]
+      imgUrl:[require("../../assets/images/lb1.jpg"),require("../../assets/images/lb2.jpg"),require("../../assets/images/lb3.jpg"),require("../../assets/images/lb4.jpg")],
+      lastContentNavList:["新歌","视频","歌单"]
     }
   },
   components:{
@@ -56,6 +69,7 @@ export default{
   @return ($rem/375)*1rem;
 }
 .wrap{
+  font-size: 14px;
   .rotat_play{
     width: setRem(375);
     height: setRem(145);
@@ -80,21 +94,43 @@ export default{
       width: 60px;
       height: 60px;
       border-radius: 30px;
-      margin: 15px;
+      margin: 15px 15px 3px 15px;
+      background-size: 30px 30px;
+      background-repeat: no-repeat;
+      background-position: center;
     }
     display: flex;
     justify-content: space-between;
+    text-align: center;
+
     .recommend_entry{
       @include me;
       background-color: rgb(213, 170, 43);
+      background-image: url(../../assets/images/recommend.png);
     }
     .ranking_entry{
       @include me;
       background-color: rgb(32, 158, 198);
+      background-image: url(../../assets/images/rank.png);
     }
     .songlist_entry{
       @include me;
       background-color: rgb(57, 129, 75);
+      background-image: url(../../assets/images/songlist.png);
+    }
+  }
+  .last_content_nav{
+    display: flex;
+    justify-content: flex-start;
+    color: gray;
+    p.selected{
+      color: #000;
+      font-size: 16px;
+      border-bottom: 2px solid #000;
+    }
+    p{
+      margin: 10px;
+      padding-bottom: 5px;
     }
   }
 }
