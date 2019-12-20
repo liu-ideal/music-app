@@ -4,8 +4,9 @@
 
 <script>
 export default {
+  name:"New_music_list"
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 </style>

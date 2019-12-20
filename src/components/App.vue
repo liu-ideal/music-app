@@ -1,5 +1,8 @@
 <template lang="html">
 <div class="wrap">
+  <transition-group name="fade">
+<Setting_page v-show="SettingPageShow" @toList="toList" key="1000"></Setting_page>
+</transition-group>
   <M_header title="hello music" @toList="toList" @toAdd="toAdd">
     <div class="to_search_wrap">
       <div class="to_search" v-tap="toSearchPage">
@@ -38,6 +41,7 @@
 import Rotat_play from "./Rotat_play";
 import Test from "./Test";
 import M_header from "./M_header";
+import Setting_page from "./Setting_page.vue";
 export default{
   name:"App",
   data(){
@@ -45,11 +49,12 @@ export default{
       num:1,
       imgUrl:[require("../../assets/images/lb1.jpg"),require("../../assets/images/lb2.jpg"),require("../../assets/images/lb3.jpg"),require("../../assets/images/lb4.jpg")],
       lastContentNavList:["新歌","视频","歌单"],
-      listSelectedIndex:0
+      listSelectedIndex:0,
+      SettingPageShow:require("../../utils/globalData.js").SettingPageShow
     }
   },
   components:{
-    Rotat_play,Test,M_header
+    Rotat_play,Test,M_header,Setting_page
   },
   methods:{
     toAdd(){
@@ -57,6 +62,7 @@ export default{
     },
     toList(){
 
+    this.SettingPageShow=require("../../utils/globalData.js").SettingPageShow;
     },
     toSearchPage(){
 
@@ -65,6 +71,9 @@ export default{
       this.listSelectedIndex=index;
       console.log(index);
     }
+  },
+  mounted(){
+    console.log();
   }
 }
 </script>
@@ -148,5 +157,27 @@ export default{
   url('//at.alicdn.com/t/font_1568155_3gb2agq6084.woff') format('woff'),
   url('//at.alicdn.com/t/font_1568155_3gb2agq6084.ttf') format('truetype'),
   url('//at.alicdn.com/t/font_1568155_3gb2agq6084.svg#iconfont') format('svg');
+}
+.fade-enter{
+width: 0;
+}
+.fade-enter-active{
+transition-property: width;
+transition-duration: 0.1s;
+transition-timing-function: ease;
+}
+.fade-enter-to{
+width: 100%;
+}
+.fade-leave{
+width: 100%;
+}
+.fade-leave-active{
+  transition-property: width;
+  transition-duration: 0.1s;
+  transition-timing-function: ease;
+}
+.fade-leave-to{
+  width: 0;
 }
 </style>

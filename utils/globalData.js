@@ -1,2 +1,4 @@
-var globalData=0;
+var globalData={
+  SettingPageShow:false
+};
 module.exports= globalData;

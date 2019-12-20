@@ -22,8 +22,8 @@ export default {
   ],
   methods:{
     toList(){
-
-      this.$emit("toList")
+      require("../../utils/globalData.js").SettingPageShow=true;
+      this.$emit("toList");
     },
     toAdd(){
       this.$emit("toAdd")
