@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="wrap">
     <ul>
-      <li v-for="(item,index) in mylist" :key="index+10" v-tap="goChildRoute">
+      <li v-for="(item,index) in mylist" :key="index+10" v-tap="goChildRoute.bind(this,item.id,item.title)">
       <div>
        <img :src="item.img" alt="">
       </div>
@@ -20,13 +20,13 @@ export default {
   data(){
     return{
       mylist:[
-        {title:"消息中心",img:require("../../assets/images/101.png")},
-        {title:"皮肤中心",img:require("../../assets/images/102.png")},
-        {title:"会员中心",img:require("../../assets/images/103.png")},
-        {title:"蝰蛇音效",img:require("../../assets/images/104.png")},
-        {title:"听歌识曲",img:require("../../assets/images/105.png")},
-        {title:"铃声彩铃",img:require("../../assets/images/106.png")},
-        {title:"我的商城",img:require("../../assets/images/107.png")}
+        {title:"消息中心",img:require("../../assets/images/101.png"),id:"news"},
+        {title:"皮肤中心",img:require("../../assets/images/102.png"),id:"skin"},
+        {title:"会员中心",img:require("../../assets/images/103.png"),id:"member"},
+        {title:"蝰蛇音效",img:require("../../assets/images/104.png"),id:"effect"},
+        {title:"听歌识曲",img:require("../../assets/images/105.png"),id:"know"},
+        {title:"铃声彩铃",img:require("../../assets/images/106.png"),id:"ring"},
+        {title:"我的商城",img:require("../../assets/images/107.png"),id:"shop"}
       ]
     }
   },
@@ -35,9 +35,9 @@ export default {
       require("../../utils/globalData.js").SettingPageShow=false;
       this.$emit("toList")
     },
-    goChildRoute(){
+    goChildRoute(id,title){
       this.$router.push({
-        name:"setting",params:{title:"消息中心"}
+        name:"setting",params:{id:id,title:title}
       })
     }
   }
@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@function setRem($rem){
+  @return ($rem/375)*1rem;
+}
 .wrap{
   left: 0;
   top: 0;
@@ -69,12 +72,12 @@ export default {
     padding-left: 15px;
     li{
       display: flex;
-      height: 40px;
+      height: setRem(40);
       align-items:center;
       div{
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
+        width: setRem(18);
+        height: setRem(18);
+        margin-right: setRem(18);
         img{
           display: block;
           width: 100%;

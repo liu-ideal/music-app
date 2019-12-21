@@ -2,12 +2,12 @@
   <div class="wrap">
     <div class="my_header">
       <span class="back" v-tap="goback"></span>
-      <p class="my_title">{{this.$route.params.title}}</p>
-      <p class="my_right"></p>
+      <p class="my_title"><input type="text" name="" v-model="value" placeholder="输入歌曲名称" ref="myinput"></p>
+      <p class="my_right" v-tap="tosearch">搜索</p>
     </div>
     <div class="content">
       {{this.$route.params.title}}
-      <p>没有更多的数据了</p>
+      <p>暂无数据</p>
 
     </div>
   </div>
@@ -15,24 +15,27 @@
 
 <script>
 export default {
-  name:"Setting_page_child",
+  name:"Search",
   data(){
     return {
-
+       value:""
     };
   },
   methods:{
     goback(){
       this.$router.push({path:"/"})
+    },
+    tosearch(){
+
     }
+  },
+  mounted(){
+    this.$refs.myinput.focus();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@function setRem($rem){
-  @return ($rem/375)*1rem;
-}
 .wrap{
   color: #fff;
   animation-name: gomove;
@@ -47,17 +50,27 @@ export default {
       width: 30px;
       height: 30px;
       background-image: url(../../assets/images/back.png);
-      background-size: contain;
     }
     .my_title{
-      margin-left: setRem(15);
+      margin-left: 15px;
       flex-grow: 1;
+      input{
+        display: block;
+        width: 100%;
+        height: 25px;
+        border-radius: 10px;
+        border-style: none;
+        background-color: rgb(53, 186, 142);
+        color: white;
+        text-indent: 20px;
+
+      }
     }
     .my_right{
-      width: 30px;
-      height: 30px;
-      background-image: url(../../assets/images/more.png);
-      margin-right:setRem(20);
+
+      margin-left: 30px;
+      margin-right: 20px;
+
     }
   }
   .content{

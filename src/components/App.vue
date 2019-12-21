@@ -65,7 +65,7 @@ export default{
     this.SettingPageShow=require("../../utils/globalData.js").SettingPageShow;
     },
     toSearchPage(){
-
+     this.$router.push({path:"/search"})
     },
     toAddSelected(index){
       this.listSelectedIndex=index;
@@ -83,7 +83,7 @@ export default{
   @return ($rem/375)*1rem;
 }
 .wrap{
-  font-size: 14px;
+  font-size: setRem(14);
   .rotat_play{
     width: setRem(375);
     height: setRem(145);
@@ -105,11 +105,11 @@ export default{
   }
   .list_content{
     @mixin me{
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
-      margin: 15px 15px 3px 15px;
-      background-size: 30px 30px;
+      width: setRem(60);
+      height: setRem(60);
+      border-radius: setRem(30);
+      margin: setRem(15) setRem(15) setRem(3) setRem(15);
+      background-size: setRem(30) setRem(30);
       background-repeat: no-repeat;
       background-position: center;
     }
@@ -139,11 +139,11 @@ export default{
     color: gray;
     p.selected{
       color: #000;
-      font-size: 16px;
+      font-size: setRem(16);
       border-bottom: 2px solid #000;
     }
     p{
-      margin: 10px;
+      margin: setRem(10);
       padding-bottom: 5px;
     }
   }
@@ -159,25 +159,29 @@ export default{
   url('//at.alicdn.com/t/font_1568155_3gb2agq6084.svg#iconfont') format('svg');
 }
 .fade-enter{
-width: 0;
+left: -100%;
+color: rgb(23, 133, 96);
 }
 .fade-enter-active{
-transition-property: width;
+transition-property: all;
 transition-duration: 0.1s;
 transition-timing-function: ease;
 }
 .fade-enter-to{
-width: 100%;
+left: 0;
+color: #fff;
 }
 .fade-leave{
-width: 100%;
+left: 0;
+color: #fff;
 }
 .fade-leave-active{
-  transition-property: width;
-  transition-duration: 0.1s;
+  transition-property: all;
+  transition-duration: 0.2s;
   transition-timing-function: ease;
 }
 .fade-leave-to{
-  width: 0;
+  left: -100%;
+  color: rgb(23, 133, 96);
 }
 </style>
