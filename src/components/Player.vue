@@ -19,7 +19,24 @@
      </div>
     </div>
     <div class="my_controler">
-      <Process></Process>
+      <div class="progress_time">
+        <Process @receiveProgress="receiveProgress"></Process>
+      </div>
+      <div class="play_pause_order">
+        <span class="my_order"></span>
+        <div class="play_pause">
+        <div class="">
+          <span></span>
+        </div>
+        <div class="">
+          <span></span>
+        </div>
+        <div class="">
+          <span></span>
+        </div>
+        </div>
+        <span class="list"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -37,13 +54,16 @@ export default {
     };
   },
   methods:{
+    receiveProgress(data){
 
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .wrap{
+  height: 100vh;
   background-color: rgb(23, 133, 96);
   color: #fff;
   font-size: 16px;
@@ -119,7 +139,83 @@ export default {
     }
   }
   .my_controler{
+      .play_pause_order{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        .my_order{
+          width: 30px;
+          height: 30px;
+          background-image: url(../../assets/images/oneandone.png);
+          background-size: contain;
+          margin-left: 15px;
+        }
+        .play_pause{
+          display: flex;
+          flex-grow: 1;
+          flex-wrap: nowrap;
+          justify-content: center;
+          align-items: center;
+          div{
+            &:nth-child(1){
+              width: 40px;
+              height: 40px;
+              border-radius: 20px;
+              background-color: rgb(74, 162, 125);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              span{
+                width: 30px;
+                height: 30px;
+                background-image: url(../../assets/images/upsong.png);
+                background-size: contain;
+              }
+            }
+            &:nth-child(2){
+              width: 50px;
+              height: 50px;
+              border-radius: 25px;
+              margin: 0 20px;
+              background-color:rgb(74, 162, 125);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              span{
+                width: 40px;
+                height: 40px;
+                background-image: url(../../assets/images/toplay.png);
+                background-size: contain;
+                background-position-x: 3px;
+              }
 
+            }
+            &:nth-child(3){
+              width: 40px;
+              height: 40px;
+              border-radius: 20px;
+              background-color:rgb(74, 162, 125);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              span{
+                width: 30px;
+                height: 30px;
+                background-image: url(../../assets/images/lowsong.png);
+                background-size: contain;
+              }
+            }
+          }
+        }
+        .list{
+          width: 30px;
+          height: 30px;
+          background-image: url(../../assets/images/playerlist.png);
+          background-size: contain;
+          margin-right: 15px;
+        }
+      }
   }
 }
 </style>
