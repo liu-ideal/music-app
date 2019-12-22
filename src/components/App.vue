@@ -69,11 +69,11 @@ export default{
     },
     toAddSelected(index){
       this.listSelectedIndex=index;
-      console.log(index);
+
     }
   },
   mounted(){
-    console.log();
+
   }
 }
 </script>

@@ -11,12 +11,16 @@ window.addEventListener("load",()=>{
 
 Vue.directive("tap",{
   inserted: function (el,handle) {
-    let myvue=new GudgedTap(el,handle.value);
+    let myvue=new GudgedTap("tap",el,handle.value);
+  }
+});
+Vue.directive("leftSlide",{
+  inserted: function (el,handle) {
+    let myvue=new GudgedTap("leftSlide",el,handle.value);
   }
 });
 var vmm= new Vue({
   el:"#root",
   template:"<router-view></router-view>",
-  components:{App},
   router
 })

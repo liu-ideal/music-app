@@ -61,6 +61,12 @@ export default {
       text-align: center;
       height: 50px;
       line-height: 50px;
+      @media screen and(max-width: 320px){
+        font-size: 14px;
+      }
+      @media screen and(min-width: 321px)and(max-width: 480px){
+        font-size: 17px;
+      }
     }
   }
 }

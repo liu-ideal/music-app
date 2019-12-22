@@ -3,6 +3,7 @@ import Vue from "vue";
 import Setting_page_child from "../components/Setting_page_child.vue";
 import App from "../components/App";
 import Search from "../components/Search";
+import Player from "../components/Player";
 Vue.use(Vuerouter);
 let  mylist=[
     {title:"消息中心",img:require("../../assets/images/101.png"),id:"news"},
@@ -25,7 +26,8 @@ let routerObj={
         }
       }
     }},
-    {path:"/search",component:Search}
+    {path:"/search",component:Search},
+    {path:"/player",component:Player}
   ]
 }
 export default new Vuerouter(routerObj)

@@ -1,5 +1,6 @@
 class GudgedTap {
-  constructor(el,handle) {
+  constructor(type,el,handle) {
+    this.type=type;
     this.elment=el;
     this.toBind(this.elment);
     this.startPosition={x:0,y:0};
@@ -22,13 +23,30 @@ class GudgedTap {
     },false)
   }
   toGudged(start,end){
-    let moveX=Math.abs(start.x-end.x);
-    let moveY=Math.abs(start.y-end.y);
-    if(moveX<=10&&moveY<=10){
-      this.result=true;
-    }else{
-      this.result=false;
+    switch (this.type) {
+      case "tap":{
+        let moveX=Math.abs(start.x-end.x);
+        let moveY=Math.abs(start.y-end.y);
+        if(moveX<=10&&moveY<=10){
+          this.result=true;
+        }else{
+          this.result=false;
+        }
+        break;
+      }
+      case "leftSlide":{
+        let moveX=start.x-end.x;
+        if(moveX>20){
+          this.result=true;
+        }else{
+          this.result=false;
+        }
+        break;
+      }
+      default:
+        this.result=false;
     }
+
   }
 }
 export default GudgedTap;

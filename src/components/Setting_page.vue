@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="wrap">
+  <div class="wrap" v-leftSlide="hidMyself">
     <ul>
       <li v-for="(item,index) in mylist" :key="index+10" v-tap="goChildRoute.bind(this,item.id,item.title)">
       <div>
