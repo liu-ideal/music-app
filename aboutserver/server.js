@@ -34,6 +34,7 @@ http.createServer(function(req,res){
     return rexp.test(pathname);
   }
   if(isMusicApi(urlObj.pathname)){
+      responseObj.writeHead(200, {'Content-Type': 'text/plain'});
       if(isSongSheet(urlObj.pathname)){
         getServerData("http",`http://m.kugou.com/plist/index&json=true`).then((data)=>{responseObj.end(data)});
       }else if(isSongSheetList(urlObj.pathname)){
@@ -44,7 +45,9 @@ http.createServer(function(req,res){
 8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472`).then((data)=>{responseObj.end(data)});
       }else if(isSearch(urlObj.pathname)){
         console.log("search",urlObj.query);
-        getServerData("https",`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=30&w=${urlObj.query}`).then((data)=>{responseObj.end(data)});
+        getServerData("https",`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=30&w=${urlObj.query}`).then((data)=>{
+          responseObj.end(data)
+        });
       }else if(isTopList(urlObj.pathname)){
         console.log("toplist");
         getServerData("https",`https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-
@@ -148,27 +151,27 @@ format=json205361747&platform=yqq&cid=205361747&songmid=${urlObj.query}&filename
 }).listen(8080,()=>{
   console.log("server running");
 })
-"use strict";
-var xml=new XMLHttpRequest();
-var exp=/<.{1,30}>/g;
-xml.open('get',"http://localhost:8080/music_api/playurl?002UeFOY2trM6k");
-xml.send();
-xml.onreadystatechange=function(){
-  if(xml.readyState===4&&xml.status===200){
-  // var myjson= xml.responseText.replace(exp,'');
-  // var myfilename=exp.exec(xml.responseText)[0].replace(/[<>]/g,'');
-  //   var result= JSON.parse(myjson);
-  //   var vkey=result.data.items[0].vkey;
-  //   var mySongUrl=`http://ws.stream.qqmusic.qq.com/${myfilename}?fromtag=0&guid=126548448&vkey=${vkey}`;
-  //   console.log(result);
-  //   console.log(myfilename);
-  //   document.getElementById("app").setAttribute("src",mySongUrl);
-  // console.log(JSON.parse(xml.responseText));
-//var resultString=xml.responseText.replace(exp,'');
-
-  console.log(xml.responseText);
-  }
-}
+// "use strict";
+// var xml=new XMLHttpRequest();
+// var exp=/<.{1,30}>/g;
+// xml.open('get',"http://localhost:8080/music_api/playurl?002UeFOY2trM6k");
+// xml.send();
+// xml.onreadystatechange=function(){
+//   if(xml.readyState===4&&xml.status===200){
+//   // var myjson= xml.responseText.replace(exp,'');
+//   // var myfilename=exp.exec(xml.responseText)[0].replace(/[<>]/g,'');
+//   //   var result= JSON.parse(myjson);
+//   //   var vkey=result.data.items[0].vkey;
+//   //   var mySongUrl=`http://ws.stream.qqmusic.qq.com/${myfilename}?fromtag=0&guid=126548448&vkey=${vkey}`;
+//   //   console.log(result);
+//   //   console.log(myfilename);
+//   //   document.getElementById("app").setAttribute("src",mySongUrl);
+//   // console.log(JSON.parse(xml.responseText));
+// //var resultString=xml.responseText.replace(exp,'');
+//
+//   console.log(xml.responseText);
+//   }
+// }
 // music_api/toplist
 // music_api/search?简单爱
 // music_api/recommend

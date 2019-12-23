@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="wrap">
     <div class="my_header">
-      <span class="back"></span>
+      <span class="back" v-tap="goback"></span>
       <div class="song_info"> <p>还记得我吗</p><p class="author">刘刘2</p></div>
       <div class="list"></div>
     </div>
@@ -56,6 +56,9 @@ export default {
   methods:{
     receiveProgress(data){
 
+    },
+    goback(){
+      this.$router.push({path:"/"})
     }
   }
 }
@@ -68,6 +71,7 @@ export default {
   color: #fff;
   font-size: 16px;
   padding-top: 20px;
+  box-sizing: border-box;
   .my_header{
 
     display: flex;
@@ -89,7 +93,7 @@ export default {
     .list{
       width: 30px;
       height: 30px;
-      background-image: url(../../assets/images/playerList.png);
+      background-image: url(../../assets/images/playerlist.png);
       background-size: contain;
       margin-right: 10px;
     }
@@ -100,7 +104,7 @@ export default {
     .bg{
       width: 200px;
       height: 200px;
-      margin: auto;
+      margin: 30px auto;
       border: 5px solid rgb(100, 133, 96);
       border-radius: 100px;
       background-image: url(../../assets/images/playerbg.jpg);
@@ -139,6 +143,9 @@ export default {
     }
   }
   .my_controler{
+      .progress_time{
+        margin: 40px 0;
+      }
       .play_pause_order{
         display: flex;
         flex-wrap: nowrap;

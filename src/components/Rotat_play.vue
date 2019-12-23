@@ -82,9 +82,7 @@ export default{
 @function setRem($rem){
   @return ($rem/375)*1rem;
 }
-$red:red;
 .wrap{
-  color: $red;
   overflow: hidden;
   position: relative;
   ul{

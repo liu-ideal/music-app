@@ -1,8 +1,8 @@
 <template lang="html">
 <div class="wrap">
-  <transition-group name="fade">
+  <transition name="fade">
 <Setting_page v-show="SettingPageShow" @toList="toList" key="1000"></Setting_page>
-</transition-group>
+</transition>
   <M_header title="hello music" @toList="toList" @toAdd="toAdd">
     <div class="to_search_wrap">
       <div class="to_search" v-tap="toSearchPage">
@@ -34,6 +34,11 @@
 <div class="last_content_nav">
 <p v-for="(item,index) in lastContentNavList" :class="{selected:listSelectedIndex===index}" v-tap="toAddSelected.bind(this,index)">{{item}}</p>
 </div>
+<keep-alive>
+<transition name="mymy">
+<component :is="currentTabComponent" :list="currentCom"></component>
+</transition>
+</keep-alive>
 </div>
 </template>
 
@@ -42,6 +47,9 @@ import Rotat_play from "./Rotat_play";
 import Test from "./Test";
 import M_header from "./M_header";
 import Setting_page from "./Setting_page.vue";
+import Song_list from "./Song_list.vue";
+import Song_sheet from "./Song_sheet.vue";
+import Video_list from "./Video_list.vue";
 export default{
   name:"App",
   data(){
@@ -50,11 +58,14 @@ export default{
       imgUrl:[require("../../assets/images/lb1.jpg"),require("../../assets/images/lb2.jpg"),require("../../assets/images/lb3.jpg"),require("../../assets/images/lb4.jpg")],
       lastContentNavList:["新歌","视频","歌单"],
       listSelectedIndex:0,
-      SettingPageShow:require("../../utils/globalData.js").SettingPageShow
+      SettingPageShow:require("../../utils/globalData.js").SettingPageShow,
+      newSongList:[],
+      songSheet:[],
+      currentTabComponent:"Song_list"
     }
   },
   components:{
-    Rotat_play,Test,M_header,Setting_page
+    Rotat_play,Test,M_header,Setting_page,Song_list,Song_sheet,Video_list
   },
   methods:{
     toAdd(){
@@ -69,11 +80,69 @@ export default{
     },
     toAddSelected(index){
       this.listSelectedIndex=index;
+      switch (index) {
+        case 0:{
+          this.currentTabComponent="Song_list";
+          break;
+        }
+        case 1:{
+          this.currentTabComponent="Video_list";
+          break;
+        }
+        case 2:{
+          this.currentTabComponent="Song_sheet";
+          break;
+        }
+        default:
+
+      }
 
     }
   },
+  computed:{
+    currentCom(){
+    let value=  this.currentTabComponent==="Song_list"?this.newSongList:this.songSheet;
+    return value;
+    }
+  },
   mounted(){
+     this.axios.get("http://localhost:8080/music_api/toplist").then((res)=>{//请求新歌信息
+       let resList=res.data.songlist;
+       let containArray=[];
+       for (let i = 0; i < resList.length; i++) {
+         let infoObj={};
+         infoObj.id=resList[i].data.songid||"0";
+         infoObj.img=resList[i].data.albumid||"0"
+         infoObj.title=resList[i].data.songname||"无";
+         infoObj.author=resList[i].data.singer[0].name||"无";
+         infoObj.album=resList[i].data.albumname||"无";
+         infoObj.src=resList[i].data.songmid||"0";
+         containArray.push(infoObj);
+       }
+       this.newSongList=containArray.slice(50);
+       // console.log(this.newSongList);
+     });
+     // -----------------
+     this.axios.get("http://localhost:8080/music_api/songsheet").then((res)=>{//请求歌单信息
+       let resList=res.data.plist.list.info;
+       let containArray=[];
+       let expr=/\{.*\}/;
+         for (let i = 0; i < resList.length; i++) {
+           let infoObj={};
+           infoObj.id=resList[i].specialid||0;
+           infoObj.img=resList[i].imgurl.replace(expr,'400')||"0";
+           infoObj.title=resList[i].intro||"无";
+           let mysongs=[];
+           for(let k = 0; k < resList[i].songs.length; k++){
+             mysongs.push(resList[i].songs[k].filename)
+           }
+           infoObj.song=mysongs||"无";
 
+           containArray.push(infoObj);
+         }
+         this.songSheet=containArray;
+        //console.log(containArray);
+     });
   }
 }
 </script>
@@ -184,4 +253,16 @@ color: #fff;
   left: -100%;
   color: rgb(23, 133, 96);
 }
+.mymy-enter{
+transform: translateX(80px);
+}
+.mymy-enter-active{
+transition-property: all;
+transition-duration: 0.1s;
+transition-timing-function: ease;
+}
+.mymy-enter-to{
+transform: translateX(0px);
+}
+
 </style>

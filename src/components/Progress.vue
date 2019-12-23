@@ -1,8 +1,10 @@
 <template lang="html">
-  <div class="wrap">
-    <div class="main_progress" @touchmove='toMove' @touchend='changeProgress'>
-      <div class="real_progress" >
-        <span ref='theSpan'></span>
+  <div class="">
+    <div class="wrap">
+      <div class="main_progress" @touchmove='toMove' @touchend='changeProgress'>
+        <div class="real_progress" >
+          <span ref='theSpan'></span>
+        </div>
       </div>
     </div>
   </div>

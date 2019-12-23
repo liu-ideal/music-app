@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./components/App";
 import GudgedTap from "../utils/tapEvent.js";
 import router from "./router/vuerouter.js";
+import axios from "axios";
+Vue.prototype.axios=axios;
 window.addEventListener("resize",()=>{
   document.documentElement.style.fontSize=document.documentElement.clientWidth+"px";
 },false)
