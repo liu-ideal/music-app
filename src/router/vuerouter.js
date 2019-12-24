@@ -4,6 +4,9 @@ import Setting_page_child from "../components/Setting_page_child.vue";
 import App from "../components/App";
 import Search from "../components/Search";
 import Player from "../components/Player";
+import Recommend_page from "../components/Recommend_page";
+import Toplist_page from "../components/Toplist_page";
+import Song_sheet_page from "../components/Song_sheet_page";
 Vue.use(Vuerouter);
 let  mylist=[
     {title:"消息中心",img:require("../../assets/images/101.png"),id:"news"},
@@ -27,7 +30,10 @@ let routerObj={
       }
     }},
     {path:"/search",component:Search},
-    {path:"/player",component:Player}
+    {path:"/player",component:Player},
+    {path:"/rec",component:Recommend_page},
+    {path:"/toplist",component:Toplist_page},
+    {path:"/sheet",component:Song_sheet_page}
   ]
 }
 export default new Vuerouter(routerObj)

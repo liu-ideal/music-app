@@ -50,7 +50,7 @@ changeProgress(e){
 .wrap{
   height: 8px;
  .main_progress{
-  width: 70%;
+  width: 90%;
   height: 4px;
   background-color: rgb(5, 83, 43);
   position: relative;

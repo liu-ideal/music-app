@@ -12,19 +12,19 @@
 </M_header>
   <Rotat_play :imgUrl=imgUrl class='rotat_play'></Rotat_play>
 <div class="list_content">
-  <div class="recommend_entry_wrap">
+  <div class="recommend_entry_wrap" v-tap="toRecPage">
    <div class="recommend_entry">
 
    </div>
    <p>推荐</p>
   </div>
-  <div class="ranking_entry_wrap">
+  <div class="ranking_entry_wrap"  v-tap="toTopPage">
     <div class="ranking_entry">
 
     </div>
     <p>排行</p>
   </div>
-  <div class="songlist_entry_wrap">
+  <div class="songlist_entry_wrap" v-tap="toSongsheetPage">
     <div class="songlist_entry">
 
     </div>
@@ -77,6 +77,16 @@ export default{
     },
     toSearchPage(){
      this.$router.push({path:"/search"})
+    },
+    toRecPage(){
+
+      this.$router.push({path:"/rec"})
+    },
+    toTopPage(){
+      this.$router.push({path:"/toplist"})
+    },
+    toSongsheetPage(){
+      this.$router.push({path:"/sheet"})
     },
     toAddSelected(index){
       this.listSelectedIndex=index;

@@ -2,7 +2,7 @@
   <div class="wrap">
     <div class="my_header">
       <span class="back" v-tap="goback"></span>
-      <p class="my_title">{{this.$route.params.title}}</p>
+      <p class="my_title">{{title}}</p>
       <p class="my_right"></p>
     </div>
   </div>
@@ -10,18 +10,20 @@
 
 <script>
 export default {
-  name:"Setting_page_child",
+  name:"Common_header_to_page",
   data(){
-    return {
+    return{
 
-    };
+    }
   },
-  props:["title"],
   methods:{
     goback(){
       this.$router.push({path:"/"})
     }
-  }
+  },
+  props:[
+    "title"
+  ]
 }
 </script>
 
@@ -31,9 +33,7 @@ export default {
 }
 .wrap{
   color: #fff;
-  animation-name: gomove;
-  animation-duration: 0.2s;
-  animation-timing-function: ease;
+
   .my_header{
     display: flex;
     background-color: rgb(23, 133, 96);
@@ -60,12 +60,5 @@ export default {
     color: #000;
   }
 }
-@keyframes gomove{
-  from {
-    transform: translateX(100px);
-  }
-  to{
-    transform: translateX(0px);
-  }
-}
+
 </style>
