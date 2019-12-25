@@ -5,6 +5,7 @@ import PlayList from "./components/PlayList.vue";
 import GudgedTap from "../utils/tapEvent.js";
 import router from "./router/vuerouter.js";
 import axios from "axios";
+import store from "./vuex/store.js";
 Vue.prototype.axios=axios;
 
 window.addEventListener("resize",()=>{
@@ -30,5 +31,6 @@ var vmm= new Vue({
     Mini_player,PlayList
   },
   template:"<div id='root'><router-view></router-view><Mini_player/><PlayList/></div>",
-  router
+  router,
+  store
 })

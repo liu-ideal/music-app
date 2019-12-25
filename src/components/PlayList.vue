@@ -5,13 +5,25 @@
 
   </div>
   <div class="content">
-    <p>播放列表</p>
+    <p class="mytitle">播放列表</p>
     <ul>
-      <li>nihao</li>
-      <li>nihao</li>
-      <li>nihao</li>
+      <li v-for="(item,index) in this.$store.state.playList">
+        <div class="info" :class="{active:isChoose(item)}">
+          <p class="myindex">{{index+1}}</p>
+          <div class="title_author">
+            <p class="title">{{item.title}}</p>
+            <p class="author">{{item.author}}</p>
+          </div>
+        </div>
+        <span class="todelete"></span>
+      </li>
     </ul>
   </div>
+  <audio :src="audioSrc" ref="myaudio">
+
+  </audio>
+
+  </video>
 </div>
 </transition>
 </template>
@@ -21,16 +33,49 @@ export default {
   name:"PlayList",
   data(){
     return{
-      showMyself:false
+      showMyself:false,
+      audioSrc:""
+
     }
   },
   methods:{
     hidMyself(){
      require("../../utils/globalData.js").PlayListObj.showMyself=false;
+   },
+   getSongUrl(id){
+     let rusult="";
+      for (let i = 0; i < this.$store.state.playList.length; i++) {
+        if(this.$store.state.playList[i].id===id){
+          rusult=this.$store.state.playList[i].src
+        }
+      }
+      return rusult;
+   }
+  },
+  computed:{
+    isChoose(){
+      return (item)=>{
+        let result=this.$store.state.whoIsChoose===item.id;
+        return result;
+      }
     }
   },
   mounted(){
     require("../../utils/globalData.js").PlayListObj=this;
+
+  },
+  watch:{
+    "$store.state.whoIsChoose":function(newvalue,old){
+      let songmid=this.getSongUrl(newvalue);
+      this.axios.get(`http://localhost:8080/music_api/playurl?${songmid}`).then((res)=>{//请求新歌信息
+        let result=res.data.data.items[0];
+        let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
+        this.audioSrc=songUrl;
+        this.$nextTick(function(){
+          this.$refs.myaudio.play();
+        })
+      });
+    }
   }
 }
 </script>
@@ -51,6 +96,64 @@ export default {
   .content{
     height: 70%;
     background-color: #ffffff;
+    overflow: scroll;
+    .mytitle{
+      font-size: 15px;
+      height: 30px;
+      line-height: 30px;
+      border-bottom: 1px solid gray;
+      text-indent: 10px;
+      font-weight: bold;
+      color: rgb(42, 43, 43);
+    }
+    ul{
+      li{
+        display: flex;
+        padding: 0 10px 3px 10px;
+        border-bottom: 1px solid gray;
+        justify-content: space-between;
+        align-items: center;
+        .info{
+          display: flex;
+          align-items: center;
+          .myindex{
+            font-size: 15px;
+          }
+          .title_author{
+            margin-left: 15px;
+            .title{
+              font-size: 14px;
+            }
+            .author{
+              font-size: 13px;
+              color: rgb(66, 67, 68);
+            }
+          }
+
+        }
+        .active{
+          .myindex{
+            color: rgb(10, 133, 77);
+          }
+          .title_author{
+            .title{
+              color: rgb(10, 133, 77);
+
+            }
+            .author{
+              color: rgb(10, 133, 77);
+
+            }
+          }
+        }
+        .todelete{
+          width: 25px;
+          height: 25px;
+          background-image: url(../../assets/images/delete.png);
+          background-size: 100%;
+        }
+      }
+    }
   }
 }
 .fade-enter{

@@ -2,7 +2,7 @@
 <div class="wrap">
   <ul>
     <li v-for="(item,index) in list" :key="item.id">
-      <span class="add_to_playlist"></span>
+      <span class="add_to_playlist" v-tap="addToPlaylist.bind(this,item)"></span>
       <div class="info">
         <img :src="`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${item.img}_0.jpg`" alt="no">
         <div class="name_author">
@@ -26,6 +26,12 @@ export default {
   props:["list"],
   mounted(){
     //console.log(this.list);
+  },
+  methods:{
+    addToPlaylist(item){
+      this.$store.commit("addMusic",item);
+      this.$store.commit("changeChoose",item.id)
+    }
   }
 }
 </script>

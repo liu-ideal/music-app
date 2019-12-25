@@ -32,7 +32,7 @@ export default {
 
     },
     showPlayList(){
-      console.log(require("../../utils/globalData.js").PlayListObj);
+      
       require("../../utils/globalData.js").PlayListObj.showMyself=true;
     }
   },
