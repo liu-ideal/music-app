@@ -1,17 +1,17 @@
 <template lang="html">
   <div class="wrap">
     <div class="my_img">
-      <img src="http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_9562594_0.jpg" alt="no">
+      <img :src="imgUrl" alt='no'/>
     </div>
     <div class="my_control">
       <Progress @receiveProgress="receiveProgress" class="my_progress"></Progress>
       <div class="info_control">
         <div class="info">
-          <p class="title">不外如是</p>
-          <p class="author">张杰</p>
+          <p class="title">{{song.title}}</p>
+          <p class="author">{{song.author}}</p>
         </div>
         <div class="control">
-          <span></span><span></span><span v-tap="showPlayList"></span>
+          <span :style="currentPlayStatu" v-tap="changePlayStatu"></span><span v-tap="chooseNextSong"></span><span v-tap="showPlayList"></span>
         </div>
       </div>
     </div>
@@ -24,16 +24,51 @@ export default {
   name:"Mini_player",
   data(){
     return {
-
+       song:{},
+       imgUrl:"http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_9583273_0.jpg"
     };
+  },
+  watch:{
+    "$store.state.currentSong":function(newvalue){
+      this.song=newvalue;
+      this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
+    }
+  },
+  computed:{
+    currentPlayStatu(){
+      console.log(this.$store.state.isPlay);
+      let topause=require('../../assets/images/topause.png');
+      let toplay=require('../../assets/images/toplay.png');
+      let imgurl=this.$store.state.isPlay?`url(${topause})`:`url(${toplay})`;
+      return {backgroundImage:imgurl};
+    }
   },
   methods:{
     receiveProgress(){
 
     },
     showPlayList(){
-      
       require("../../utils/globalData.js").PlayListObj.showMyself=true;
+    },
+    changePlayStatu(){
+      let needstatu=!this.$store.state.isPlay;
+      this.$store.commit("changePlayStatu",needstatu);
+    },
+    chooseNextSong(){
+      let list= this.$store.state.playList;
+      let idCurrent=this.$store.state.whoIsChoose;
+      let needChooseId='';
+      for (let i = 0; i < list.length; i++) {
+        if(list[i].id===idCurrent){
+          if(list[i+1]){
+            needChooseId=list[i+1].id;
+            this.$store.commit("changeChoose",needChooseId)
+          }else if(i===list.length-1){
+              needChooseId=list[0].id;
+              this.$store.commit("changeChoose",needChooseId);
+          }
+        }
+      }
     }
   },
   mounted(){
@@ -120,7 +155,7 @@ export default {
           background-size: 100% 100%;
           margin: 0 10px;
           &:nth-child(1){
-            background-image: url(../../assets/images/toplay.png);
+            // background-image: url(../../assets/images/toplay.png);
           }
           &:nth-child(2){
             background-image: url(../../assets/images/lowsong.png);

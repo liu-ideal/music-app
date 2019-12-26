@@ -7,7 +7,7 @@
   <div class="content">
     <p class="mytitle">播放列表</p>
     <ul>
-      <li v-for="(item,index) in this.$store.state.playList">
+      <li v-for="(item,index) in this.$store.state.playList" :key="item.id" v-tap="toPlay.bind(this,item)">
         <div class="info" :class="{active:isChoose(item)}">
           <p class="myindex">{{index+1}}</p>
           <div class="title_author">
@@ -42,14 +42,17 @@ export default {
     hidMyself(){
      require("../../utils/globalData.js").PlayListObj.showMyself=false;
    },
-   getSongUrl(id){
+   getCurrentSong(id){
      let rusult="";
       for (let i = 0; i < this.$store.state.playList.length; i++) {
         if(this.$store.state.playList[i].id===id){
-          rusult=this.$store.state.playList[i].src
+          rusult=this.$store.state.playList[i];
         }
       }
       return rusult;
+   },
+   toPlay(item){
+     this.$store.commit("changeChoose",item.id);
    }
   },
   computed:{
@@ -66,7 +69,8 @@ export default {
   },
   watch:{
     "$store.state.whoIsChoose":function(newvalue,old){
-      let songmid=this.getSongUrl(newvalue);
+      this.$store.commit("setCurrentSong",this.getCurrentSong(newvalue));
+      let songmid=this.getCurrentSong(newvalue).src;
       this.axios.get(`http://localhost:8080/music_api/playurl?${songmid}`).then((res)=>{//请求新歌信息
         let result=res.data.data.items[0];
         let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
@@ -75,6 +79,13 @@ export default {
           this.$refs.myaudio.play();
         })
       });
+    },
+    "$store.state.isPlay":function(){
+      if(this.$store.state.isPlay){
+        this.$refs.myaudio.play();
+      }else {
+        this.$refs.myaudio.pause();
+      }
     }
   }
 }

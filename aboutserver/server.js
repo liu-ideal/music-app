@@ -45,7 +45,7 @@ http.createServer(function(req,res){
 8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472`).then((data)=>{responseObj.end(data)});
       }else if(isSearch(urlObj.pathname)){
         console.log("search",urlObj.query);
-        getServerData("https",`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=30&w=${urlObj.query}`).then((data)=>{
+        getServerData("https",`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=10&w=${urlObj.query}`).then((data)=>{
           responseObj.end(data)
         });
       }else if(isTopList(urlObj.pathname)){

@@ -3,7 +3,7 @@
   <ul>
     <li v-for="(item,index) in list" :key="item.id">
       <span class="add_to_playlist" v-tap="addToPlaylist.bind(this,item)"></span>
-      <div class="info">
+      <div class="info" v-tap="addToPlaylistChoose.bind(this,item)">
         <img :src="`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${item.img}_0.jpg`" alt="no">
         <div class="name_author">
          <p class="songname">{{item.title}}</p>
@@ -30,7 +30,11 @@ export default {
   methods:{
     addToPlaylist(item){
       this.$store.commit("addMusic",item);
-      this.$store.commit("changeChoose",item.id)
+    },
+    addToPlaylistChoose(item){
+      this.$store.commit("addMusic",item);
+      this.$store.commit("changeChoose",item.id);
+      this.$store.commit("changePlayStatu",true);
     }
   }
 }
@@ -91,7 +95,7 @@ export default {
         .name_author{
           .songauthor{
             @media screen and(max-width: 420px){
-            font-size: 15px;
+            font-size: 13px;
             }
             @media screen and(min-width: 421px){
             font-size: 15px;
