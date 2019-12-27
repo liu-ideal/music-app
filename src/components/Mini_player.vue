@@ -49,9 +49,9 @@ export default {
         console.log("yes");
         if(!this.$store.state.audioObj.duration){
           console.log("nn");
-          this.$store.state.audioObj.removeEventListener("durationchange",this.jjjj);
           this.$store.state.audioObj.addEventListener("durationchange",this.jjjj,false)
         }else{
+          console.log("non");
           require("../../utils/globalData.js").timer=setInterval(()=>{
             this.setTimejindu();
             if(this.$store.state.audioObj.paused){
@@ -126,11 +126,14 @@ export default {
       this.jindu=Math.floor((fengzi/fengmu)*100)/100;
     },
     jjjj(){
+      this.$store.state.audioObj.removeEventListener("durationchange",this.jjjj);
       console.log("jbmm");
+      clearInterval(require("../../utils/globalData.js").timer);
       require("../../utils/globalData.js").timer=setInterval(()=>{
         this.setTimejindu();
         console.log("timerTwo");
         if(this.$store.state.audioObj.paused){
+          console.log("pause");
           this.$store.commit("changePlayStatu",false)
         }
         if(this.$store.state.audioObj.ended){

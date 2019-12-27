@@ -21,7 +21,7 @@
     </div>
     <div class="my_controler">
       <div class="progress_time">
-        <Process @receiveProgress="receiveProgress"></Process>
+        <Process @receiveProgress="receiveProgress" :jindu="jindu"></Process>
       </div>
       <div class="play_pause_order">
         <span class="my_order"> <span class="my_order_list"></span></span>
@@ -56,6 +56,7 @@ export default {
       imgUrl:"",
       timer:"",
       deg:0
+
 
     };
   },
@@ -141,6 +142,9 @@ export default {
       let imgurl=this.$store.state.isPlay?`url(${topause})`:`url(${toplay})`;
       let myposition=this.$store.state.isPlay?"0px":"3px";
       return {backgroundImage:imgurl,backgroundPositionX: myposition};
+    },
+    jindu(){
+      return require("../../utils/globalData.js").MiniPlayer.jindu;
     }
   },
   mounted(){

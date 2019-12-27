@@ -73,6 +73,7 @@ export default {
   },
   watch:{
     "$store.state.whoIsChoose":function(newvalue,old){
+      console.log("Toplay");
       this.$store.commit("setCurrentSong",this.getCurrentSong(newvalue));
       let songmid=this.getCurrentSong(newvalue).src;
       this.axios.get(`http://localhost:8080/music_api/playurl?${songmid}`).then((res)=>{//请求新歌信息

@@ -37,6 +37,11 @@ let mutations={
   deleteOneSong(state,id){
     for (let i = 0; i < state.playList.length; i++) {
       if(id===state.playList[i].id){
+        if(id===state.currentSong.id){
+          state.whoIsChoose=state.playList[i+1]?state.playList[i+1].id:state.playList[0].id;
+          state.playList.splice(i,1);
+
+        }
         state.playList.splice(i,1)
       }
     }

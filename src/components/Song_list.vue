@@ -34,7 +34,7 @@ export default {
     addToPlaylistChoose(item){
       this.$store.commit("addMusic",item);
       this.$store.commit("changeChoose",item.id);
-      clearInterval(this.$store.state.timer);
+      clearInterval(require("../../utils/globalData.js").timer);
       this.$store.commit("changePlayStatu",false);
     }
   }
