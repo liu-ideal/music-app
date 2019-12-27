@@ -1,21 +1,23 @@
 <template lang="html">
-  <div class="wrap">
-    <div class="my_img">
+  <transition name="fade">
+  <div class="wrap" v-tap="showPlayerPage" v-show="showMyself">
+    <div class="my_img" ref="mybgg">
       <img :src="imgUrl" alt='no'/>
     </div>
     <div class="my_control">
-      <Progress @receiveProgress="receiveProgress" class="my_progress"></Progress>
+      <Progress @receiveProgress="receiveProgress" class="my_progress" :jindu="jindu"></Progress>
       <div class="info_control">
         <div class="info">
           <p class="title">{{song.title}}</p>
           <p class="author">{{song.author}}</p>
         </div>
         <div class="control">
-          <span :style="currentPlayStatu" v-tap="changePlayStatu"></span><span v-tap="chooseNextSong"></span><span v-tap="showPlayList"></span>
+          <span :style="currentPlayStatu" v-tap-stop="changePlayStatu"></span><span v-tap-stop="chooseNextSong"></span><span v-tap-stop="showPlayList"></span>
         </div>
       </div>
     </div>
   </div>
+</transition>
 </template>
 
 <script>
@@ -25,18 +27,47 @@ export default {
   data(){
     return {
        song:{},
-       imgUrl:"http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_9583273_0.jpg"
+       imgUrl:"http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_9583273_0.jpg",
+       showMyself:'',
+       timer:"",
+       deg:0,
+       jindu:0,
+       timerTwo:""
     };
   },
   watch:{
     "$store.state.currentSong":function(newvalue){
       this.song=newvalue;
       this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
+    },
+    "$store.state.isPlay":function(){
+      console.log("caoniama");
+      clearInterval(this.timer);
+      clearInterval(require("../../utils/globalData.js").timer);
+      if(this.$store.state.isPlay){
+        this.startRotate(this.deg);
+        console.log("yes");
+        if(!this.$store.state.audioObj.duration){
+          console.log("nn");
+          this.$store.state.audioObj.removeEventListener("durationchange",this.jjjj);
+          this.$store.state.audioObj.addEventListener("durationchange",this.jjjj,false)
+        }else{
+          require("../../utils/globalData.js").timer=setInterval(()=>{
+            this.setTimejindu();
+            if(this.$store.state.audioObj.paused){
+              this.$store.commit("changePlayStatu",false)
+            }
+            console.log("timerTwo");
+          },1000)
+        }
+      }else {
+        clearInterval(this.timer);
+        clearInterval(this.$store.state.timer)
+      }
     }
   },
   computed:{
     currentPlayStatu(){
-      console.log(this.$store.state.isPlay);
       let topause=require('../../assets/images/topause.png');
       let toplay=require('../../assets/images/toplay.png');
       let imgurl=this.$store.state.isPlay?`url(${topause})`:`url(${toplay})`;
@@ -44,13 +75,20 @@ export default {
     }
   },
   methods:{
-    receiveProgress(){
-
+    receiveProgress(value){
+      if(this.$store.state.audioObj.duration){
+        this.$store.state.audioObj.currentTime=this.$store.state.audioObj.duration*value;
+      }
     },
     showPlayList(){
       require("../../utils/globalData.js").PlayListObj.showMyself=true;
     },
+    showPlayerPage(){
+      this.$router.push({path:"/player"});
+      this.showMyself=false;
+    },
     changePlayStatu(){
+      clearInterval(this.timer)
       let needstatu=!this.$store.state.isPlay;
       this.$store.commit("changePlayStatu",needstatu);
     },
@@ -62,17 +100,53 @@ export default {
         if(list[i].id===idCurrent){
           if(list[i+1]){
             needChooseId=list[i+1].id;
-            this.$store.commit("changeChoose",needChooseId)
+            this.$store.commit("changeChoose",needChooseId);
+            this.$store.commit("changePlayStatu",false)
+
           }else if(i===list.length-1){
               needChooseId=list[0].id;
               this.$store.commit("changeChoose",needChooseId);
+              this.$store.commit("changePlayStatu",false)
+
           }
         }
       }
+    },
+    startRotate(deg){
+      let mydeg=deg||0;
+      this.timer=setInterval(()=>{
+        this.$refs.mybgg.style.transform=`rotate(${mydeg}deg)`;
+        mydeg+=1;
+        this.deg+=1;
+      },100)
+    },
+    setTimejindu(){
+      let fengzi=Number(this.$store.state.audioObj.currentTime.toFixed(2));
+      let fengmu=Number(this.$store.state.audioObj.duration.toFixed(2));
+      this.jindu=Math.floor((fengzi/fengmu)*100)/100;
+    },
+    jjjj(){
+      console.log("jbmm");
+      require("../../utils/globalData.js").timer=setInterval(()=>{
+        this.setTimejindu();
+        console.log("timerTwo");
+        if(this.$store.state.audioObj.paused){
+          this.$store.commit("changePlayStatu",false)
+        }
+        if(this.$store.state.audioObj.ended){
+          console.log("end");
+          this.$store.commit("changePlayStatu",false)
+        }
+      },1000)
     }
   },
   mounted(){
-
+         if(this.$route.path==="/player"){
+           this.showMyself=false;
+         }else{
+           this.showMyself=true;
+         }
+        require("../../utils/globalData.js").MiniPlayer=this;
   },
   components:{
     Progress
@@ -167,5 +241,28 @@ export default {
       }
     }
   }
+}
+.fade-enter{
+bottom: -100%;
+}
+.fade-enter-active{
+transition-property: all;
+transition-duration: 0.2s;
+transition-timing-function: ease;
+}
+.fade-enter-to{
+bottom: 0;
+}
+.fade-leave{
+bottom: 0;
+
+}
+.fade-leave-active{
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+.fade-leave-to{
+  bottom: -100%;
 }
 </style>

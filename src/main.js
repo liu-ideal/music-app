@@ -20,6 +20,11 @@ Vue.directive("tap",{
     let myvue=new GudgedTap("tap",el,handle.value);
   }
 });
+Vue.directive("tap-stop",{
+  inserted: function (el,handle) {
+    let myvue=new GudgedTap("tap",el,handle.value,"stop");
+  }
+});
 Vue.directive("leftSlide",{
   inserted: function (el,handle) {
     let myvue=new GudgedTap("leftSlide",el,handle.value);

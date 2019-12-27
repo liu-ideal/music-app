@@ -15,7 +15,7 @@
             <p class="author">{{item.author}}</p>
           </div>
         </div>
-        <span class="todelete"></span>
+        <span class="todelete" v-tap-stop="deleteOneSong.bind(this,item)"></span>
       </li>
     </ul>
   </div>
@@ -53,6 +53,9 @@ export default {
    },
    toPlay(item){
      this.$store.commit("changeChoose",item.id);
+   },
+   deleteOneSong(item){
+     this.$store.commit("deleteOneSong",item.id)
    }
   },
   computed:{
@@ -65,6 +68,7 @@ export default {
   },
   mounted(){
     require("../../utils/globalData.js").PlayListObj=this;
+    this.$store.commit("initAudioObj",this.$refs.myaudio);
 
   },
   watch:{
@@ -76,15 +80,19 @@ export default {
         let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
         this.audioSrc=songUrl;
         this.$nextTick(function(){
+          console.log("1");
           this.$refs.myaudio.play();
+          this.$store.commit("changePlayStatu",true);
         })
       });
     },
     "$store.state.isPlay":function(){
       if(this.$store.state.isPlay){
-        this.$refs.myaudio.play();
+        this.$refs.myaudio.getAttribute("src")&&this.$refs.myaudio.play();
+
+        console.log(this.$refs.myaudio.duration,this.$refs.myaudio.readyState,this.$refs.myaudio.buffered,this.$refs.myaudio.currentTime);
       }else {
-        this.$refs.myaudio.pause();
+        this.$refs.myaudio.getAttribute("src")&&this.$refs.myaudio.pause();
       }
     }
   }

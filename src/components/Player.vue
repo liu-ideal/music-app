@@ -1,12 +1,13 @@
 <template lang="html">
+
   <div class="wrap">
     <div class="my_header">
       <span class="back" v-tap="goback"></span>
-      <div class="song_info"> <p>还记得我吗</p><p class="author">刘刘2</p></div>
-      <div class="list"></div>
+      <div class="song_info"> <p>{{song.title}}</p><p class="author">{{song.author}}</p></div>
+      <div class="list" v-tap="showPlayList"></div>
     </div>
     <div class="my_mid">
-     <div class="bg">
+     <div class="bg" :style="currentPlaySong" ref="mybg">
 
      </div>
      <p>暂不支持歌词</p>
@@ -23,22 +24,23 @@
         <Process @receiveProgress="receiveProgress"></Process>
       </div>
       <div class="play_pause_order">
-        <span class="my_order"></span>
+        <span class="my_order"> <span class="my_order_list"></span></span>
         <div class="play_pause">
-        <div class="">
+        <div class="" v-tap="chooseUpSong">
           <span></span>
         </div>
-        <div class="">
+        <div class="" v-tap="changePlayStatu">
+          <span :style="currentPlayStatu"></span>
+        </div>
+        <div class="" v-tap="chooseNextSong">
           <span></span>
         </div>
-        <div class="">
-          <span></span>
         </div>
-        </div>
-        <span class="list"></span>
+        <span class="list" v-tap="showPlayList"></span>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -50,8 +52,26 @@ export default {
   },
   data(){
     return {
+      song:{},
+      imgUrl:"",
+      timer:"",
+      deg:0
 
     };
+  },
+  watch:{
+    "$store.state.currentSong":function(newvalue){
+      console.log("ooo");
+      this.song=newvalue;
+      this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
+    },
+    "$store.state.isPlay":function(){
+      if(this.$store.state.isPlay){
+        this.startRotate(this.deg);
+      }else {
+        clearInterval(this.timer);
+      }
+    }
   },
   methods:{
     receiveProgress(data){
@@ -59,7 +79,79 @@ export default {
     },
     goback(){
       this.$router.push({path:"/"})
+    },
+    showPlayList(){
+      require("../../utils/globalData.js").PlayListObj.showMyself=true;
+    },
+    changePlayStatu(){
+      clearInterval(this.timer);
+      let needstatu=!this.$store.state.isPlay;
+      this.$store.commit("changePlayStatu",needstatu);
+    },
+    chooseNextSong(){
+      let list= this.$store.state.playList;
+      let idCurrent=this.$store.state.whoIsChoose;
+      let needChooseId='';
+      for (let i = 0; i < list.length; i++) {
+        if(list[i].id===idCurrent){
+          if(list[i+1]){
+            needChooseId=list[i+1].id;
+            this.$store.commit("changeChoose",needChooseId)
+          }else if(i===list.length-1){
+              needChooseId=list[0].id;
+              this.$store.commit("changeChoose",needChooseId);
+          }
+        }
+      }
+    },
+    chooseUpSong(){
+      let list= this.$store.state.playList;
+      let idCurrent=this.$store.state.whoIsChoose;
+      let needChooseId='';
+      for (let i = 0; i < list.length; i++) {
+        if(list[i].id===idCurrent){
+          if(list[i-1]){
+            needChooseId=list[i-1].id;
+            this.$store.commit("changeChoose",needChooseId)
+          }else if(i===0){
+              needChooseId=list[list.length-1].id;
+              this.$store.commit("changeChoose",needChooseId);
+          }
+        }
+      }
+    },
+    startRotate(deg){
+      let mydeg=deg||0;
+      this.timer=setInterval(()=>{
+        this.$refs.mybg.style.transform=`rotate(${mydeg}deg)`;
+        mydeg+=1;
+        this.deg+=1;
+      },100)
     }
+  },
+  computed:{
+    currentPlaySong(){
+      let todefault=require("../../assets/images/playerbg.jpg");
+      let imgurl=this.imgUrl?`url(${this.imgUrl})`:`url(${todefault})`;
+      return {backgroundImage:imgurl};
+    },
+    currentPlayStatu(){
+      let topause=require('../../assets/images/topause.png');
+      let toplay=require('../../assets/images/toplay.png');
+      let imgurl=this.$store.state.isPlay?`url(${topause})`:`url(${toplay})`;
+      let myposition=this.$store.state.isPlay?"0px":"3px";
+      return {backgroundImage:imgurl,backgroundPositionX: myposition};
+    }
+  },
+  mounted(){
+   this.song=this.$store.state.currentSong;
+   this.imgUrl=this.song.img?`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`:require("../../assets/images/playerbg.jpg");
+   this.$store.state.isPlay&&this.startRotate();
+
+  },
+  destroyed(){
+    require("../../utils/globalData.js").MiniPlayer.showMyself=true;
+    clearInterval(this.timer)
   }
 }
 </script>
@@ -72,6 +164,9 @@ export default {
   font-size: 16px;
   padding-top: 20px;
   box-sizing: border-box;
+  animation-name: myin;
+  animation-duration: 0.1s;
+  animation-timing-function: ease;
   .my_header{
 
     display: flex;
@@ -157,6 +252,7 @@ export default {
           background-image: url(../../assets/images/oneandone.png);
           background-size: contain;
           margin-left: 15px;
+          position: relative;
         }
         .play_pause{
           display: flex;
@@ -195,6 +291,7 @@ export default {
                 background-image: url(../../assets/images/toplay.png);
                 background-size: contain;
                 background-position-x: 3px;
+                background-repeat: no-repeat;
               }
 
             }
@@ -223,6 +320,16 @@ export default {
           margin-right: 15px;
         }
       }
+  }
+}
+@keyframes myin {
+  from{
+    transform-origin:100% 100%;
+    transform: rotate(45deg);
+  }
+  to{
+    transform-origin:100% 100%;
+    transform: rotate(0deg);
   }
 }
 </style>

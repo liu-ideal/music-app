@@ -1,5 +1,5 @@
 class GudgedTap {
-  constructor(type,el,handle) {
+  constructor(type,el,handle,stop) {
     this.type=type;
     this.elment=el;
     this.toBind(this.elment);
@@ -7,11 +7,13 @@ class GudgedTap {
     this.endPosition={x:0,y:0};
     this.result=null;
     this.handle=handle;
+    this.stop=stop?true:false;
   }
   toBind(elment){
     elment.addEventListener("touchstart",(e)=>{
       this.startPosition.x=Number(e.targetTouches[0].clientX);
-      this.startPosition.y=Number(e.targetTouches[0].clientY)
+      this.startPosition.y=Number(e.targetTouches[0].clientY);
+      if(this.stop){e.stopPropagation?e.stopPropagation():e.cancelBubble=true;}
     },false);
     elment.addEventListener("touchend",(e)=>{
       this.endPosition.x=Number(e.changedTouches[0].clientX);
@@ -20,6 +22,7 @@ class GudgedTap {
       if(this.result){
         this.handle();
       }
+      if(this.stop){e.stopPropagation?e.stopPropagation():e.cancelBubble=true;}
     },false)
   }
   toGudged(start,end){

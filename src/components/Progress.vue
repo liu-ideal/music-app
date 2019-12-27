@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <div class="wrap">
-      <div class="main_progress" @touchmove='toMove' @touchend='changeProgress'>
+      <div class="main_progress" @touchmove.stop='toMove' @touchend.stop='changeProgress'>
         <div class="real_progress" >
           <span ref='theSpan'></span>
         </div>
@@ -18,6 +18,12 @@ export default {
       myprogress:0
     }
   },
+  watch:{
+    jindu(newvalue){
+
+      this.setPosition(newvalue)
+    }
+  },
   methods:{
     toMove(e){
   let leftt=document.querySelector('.main_progress').offsetLeft;
@@ -26,8 +32,7 @@ export default {
   if(goMove<-5||goMove>widthh){return};
   let jindu=Math.floor((goMove/widthh)*100)/100;//这是进度百分比
   if(jindu<0){jindu=0};
-  this.$refs.theSpan.style.left=jindu*widthh +'px';
-  document.querySelector('.real_progress').style.width=jindu*widthh +'px';
+  this.setPosition(jindu);
   this.myprogress=jindu;
   this.$emit("receiveProgress",jindu);
 },
@@ -38,12 +43,17 @@ changeProgress(e){
   if(goMove<-5||goMove>widthh){return};
   let jindu=Math.floor((goMove/widthh)*100)/100;//这是进度百分比
   if(jindu<0){jindu=0};
-  this.$refs.theSpan.style.left=jindu*widthh +'px';
-  document.querySelector('.real_progress').style.width=jindu*widthh +'px';
+  this.setPosition(jindu);
   this.myprogress=jindu;
   this.$emit("receiveProgress",jindu);
+},
+setPosition(jindu){
+  let widthh=document.querySelector('.main_progress').offsetWidth;
+  this.$refs.theSpan.style.left=jindu*widthh +'px';
+  document.querySelector('.real_progress').style.width=jindu*widthh +'px';
 }
-  }
+},
+props:["jindu"]
 }
 </script>
 <style lang="scss" scoped>

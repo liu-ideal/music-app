@@ -5,7 +5,9 @@ let state={
   playList:[],
   whoIsChoose:0,
   isPlay:false,
-  currentSong:{}
+  currentSong:{},
+  audioObj:null,
+  timer:""
 
 }
 let mutations={
@@ -31,6 +33,16 @@ let mutations={
   },
   changePlayStatu(state,statu){
     state.isPlay=statu;
+  },
+  deleteOneSong(state,id){
+    for (let i = 0; i < state.playList.length; i++) {
+      if(id===state.playList[i].id){
+        state.playList.splice(i,1)
+      }
+    }
+  },
+  initAudioObj(state,obj){
+    state.audioObj=obj
   }
 }
 let store=new Vuex.Store({state,mutations});

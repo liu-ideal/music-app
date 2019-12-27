@@ -1,5 +1,7 @@
 var globalData={
   SettingPageShow:false,
-  PlayListObj:null
+  PlayListObj:null,
+  MiniPlayer:null,
+  timer:""
 };
 module.exports= globalData;
