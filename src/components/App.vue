@@ -39,9 +39,9 @@
 <component :is="currentTabComponent" :list="currentCom"></component>
 </transition>
 </keep-alive>
+<Tips ref="mytips"></Tips>
 </div>
 </template>
-
 <script>
 import Rotat_play from "./Rotat_play";
 import Test from "./Test";
@@ -50,6 +50,7 @@ import Setting_page from "./Setting_page.vue";
 import Song_list from "./Song_list.vue";
 import Song_sheet from "./Song_sheet.vue";
 import Video_list from "./Video_list.vue";
+import Tips from "./Tips.vue";
 export default{
   name:"App",
   data(){
@@ -65,11 +66,11 @@ export default{
     }
   },
   components:{
-    Rotat_play,Test,M_header,Setting_page,Song_list,Song_sheet,Video_list
+    Rotat_play,Test,M_header,Setting_page,Song_list,Song_sheet,Video_list,Tips
   },
   methods:{
     toAdd(){
-      console.log("add");
+      this.$refs.mytips.initMy("该功能尚未开放");
     },
     toList(){
 

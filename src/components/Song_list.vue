@@ -12,10 +12,12 @@
       </div>
     </li>
   </ul>
+  <Tips ref="mytips"></Tips>
 </div>
 </template>
 
 <script>
+import Tips from "./Tips.vue";
 export default {
   name:"Song_list",
   data(){
@@ -27,9 +29,18 @@ export default {
   mounted(){
     //console.log(this.list);
   },
+  components:{
+    Tips
+  },
   methods:{
     addToPlaylist(item){
-      this.$store.commit("addMusic",item);
+      if(this.$store.state.playList.length===0){
+        this.$store.commit("addMusic",item);
+        this.$store.commit("changeChoose",item.id);
+      }else{
+        this.$store.commit("addMusic",item);
+      }
+      this.$refs.mytips.initMy("加入播放列表成功");
     },
     addToPlaylistChoose(item){
       this.$store.commit("addMusic",item);

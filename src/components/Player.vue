@@ -12,19 +12,21 @@
      </div>
      <p>暂不支持歌词</p>
      <div class="some_list">
-       <span></span>
-       <span></span>
-       <span></span>
-       <span></span>
-       <span></span>
+       <span v-tap="notFinished"></span>
+       <span v-tap="notFinished"></span>
+       <span v-tap="notFinished"></span>
+       <span v-tap="notFinished"></span>
+       <span v-tap="notFinished"></span>
      </div>
     </div>
     <div class="my_controler">
       <div class="progress_time">
-        <Process @receiveProgress="receiveProgress" :jindu="jindu"></Process>
+        <span>{{this.$store.state.startTime}}</span>
+        <Process @receiveProgress="receiveProgress" :jindu="jindu" class="my_progress"></Process>
+        <span>{{this.$store.state.totalTime}}</span>
       </div>
       <div class="play_pause_order">
-        <span class="my_order"> <span class="my_order_list"></span></span>
+        <span class="my_order" v-tap="notFinished"> <span class="my_order_list"></span></span>
         <div class="play_pause">
         <div class="" v-tap="chooseUpSong">
           <span></span>
@@ -39,16 +41,18 @@
         <span class="list" v-tap="showPlayList"></span>
       </div>
     </div>
+    <Tips ref="mytips"></Tips>
   </div>
 
 </template>
 
 <script>
 import Process from "./Progress.vue";
+import Tips from "./Tips.vue";
 export default {
   name:"Player",
   components:{
-    Process
+    Process,Tips
   },
   data(){
     return {
@@ -56,8 +60,6 @@ export default {
       imgUrl:"",
       timer:"",
       deg:0
-
-
     };
   },
   watch:{
@@ -75,14 +77,21 @@ export default {
     }
   },
   methods:{
-    receiveProgress(data){
-
+    notFinished(){
+      this.$refs.mytips.initMy("该功能尚未开放");
+    },
+    receiveProgress(value){
+      if(this.$store.state.audioObj.duration){
+        this.$store.state.audioObj.currentTime=this.$store.state.audioObj.duration*value;
+      }
     },
     goback(){
       this.$router.push({path:"/"})
     },
     showPlayList(){
-      require("../../utils/globalData.js").PlayListObj.showMyself=true;
+      if(require("../../utils/globalData.js").PlayListObj){
+        require("../../utils/globalData.js").PlayListObj.showMyself=true;
+      }
     },
     changePlayStatu(){
       clearInterval(this.timer);
@@ -144,7 +153,10 @@ export default {
       return {backgroundImage:imgurl,backgroundPositionX: myposition};
     },
     jindu(){
-      return require("../../utils/globalData.js").MiniPlayer.jindu;
+      if(require("../../utils/globalData.js").MiniPlayer){
+        return require("../../utils/globalData.js").MiniPlayer.jindu;
+      }
+
     }
   },
   mounted(){
@@ -154,7 +166,9 @@ export default {
 
   },
   destroyed(){
-    require("../../utils/globalData.js").MiniPlayer.showMyself=true;
+    if(require("../../utils/globalData.js").MiniPlayer){
+      require("../../utils/globalData.js").MiniPlayer.showMyself=true;
+    }
     clearInterval(this.timer)
   }
 }
@@ -169,7 +183,7 @@ export default {
   padding-top: 20px;
   box-sizing: border-box;
   animation-name: myin;
-  animation-duration: 0.1s;
+  animation-duration: 0.2s;
   animation-timing-function: ease;
   .my_header{
 
@@ -244,6 +258,17 @@ export default {
   .my_controler{
       .progress_time{
         margin: 40px 0;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        .my_progress{
+          width: 70%;
+        }
+        span{
+          margin: 0 10px;
+        }
+
       }
       .play_pause_order{
         display: flex;

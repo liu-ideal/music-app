@@ -60,7 +60,7 @@ props:["jindu"]
 .wrap{
   height: 8px;
  .main_progress{
-  width: 90%;
+  width: 100%;
   height: 4px;
   background-color: rgb(5, 83, 43);
   position: relative;

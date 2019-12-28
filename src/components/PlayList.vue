@@ -82,7 +82,6 @@ export default {
         this.audioSrc=songUrl;
         this.$nextTick(function(){
           console.log("1");
-          this.$refs.myaudio.play();
           this.$store.commit("changePlayStatu",true);
         })
       });

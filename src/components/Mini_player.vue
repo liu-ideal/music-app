@@ -54,6 +54,7 @@ export default {
           console.log("non");
           require("../../utils/globalData.js").timer=setInterval(()=>{
             this.setTimejindu();
+            this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
             if(this.$store.state.audioObj.paused){
               this.$store.commit("changePlayStatu",false)
             }
@@ -102,11 +103,10 @@ export default {
             needChooseId=list[i+1].id;
             this.$store.commit("changeChoose",needChooseId);
             this.$store.commit("changePlayStatu",false)
-
           }else if(i===list.length-1){
               needChooseId=list[0].id;
               this.$store.commit("changeChoose",needChooseId);
-              this.$store.commit("changePlayStatu",false)
+
 
           }
         }
@@ -127,10 +127,12 @@ export default {
     },
     jjjj(){
       this.$store.state.audioObj.removeEventListener("durationchange",this.jjjj);
+      this.$store.commit("changetotalTime",this.formatTime(this.$store.state.audioObj.duration));
       console.log("jbmm");
       clearInterval(require("../../utils/globalData.js").timer);
       require("../../utils/globalData.js").timer=setInterval(()=>{
         this.setTimejindu();
+        this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
         console.log("timerTwo");
         if(this.$store.state.audioObj.paused){
           console.log("pause");
@@ -141,6 +143,36 @@ export default {
           this.$store.commit("changePlayStatu",false)
         }
       },1000)
+    },
+    formatTime(time){
+      let numTime= Number(time);
+      let second=Math.round(numTime);
+      let result='';
+       if(second>=360){
+         let hh=second-360;
+         hh>=10?result=`06:${hh}`:result=`06:0${hh}`;
+         } else if (second>=300) {
+            let hh=second-300;
+            hh>=10?result=`05:${hh}`:result=`05:0${hh}`;
+          }else if(second>=240){
+            let hh=second-240;
+            hh>=10?result=`04:${hh}`:result=`04:0${hh}`;
+          }else if(second>=180){
+            let hh=second-180;
+            hh>=10?result=`03:${hh}`:result=`03:0${hh}`;
+          }else if(second>=120){
+            let hh=second-120;
+            hh>=10?result=`02:${hh}`:result=`02:0${hh}`;
+          }else if(second>=60){
+            let hh=second-60;
+            hh>=10?result=`01:${hh}`:result=`01:0${hh}`;
+          }else if(second<60){
+            let hh=second;
+            hh>=10?result=`00:${hh}`:result=`00:0${hh}`;
+          }else{
+            result=`00:00`
+          }
+         return result;
     }
   },
   mounted(){
@@ -185,7 +217,7 @@ export default {
     flex-grow: 1;
     margin-top: 10px;
     .my_progress{
-      width: 90%;
+      width: 80%;
     }
     .info_control{
       display: flex;

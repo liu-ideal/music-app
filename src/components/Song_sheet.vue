@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="wrap">
   <ul>
-    <li v-for="(item,index) in list" :key="item.id">
+    <li v-for="(item,index) in list" :key="item.id" v-tap="goSheet">
         <img :src="item.img" alt="no">
         <div class="info">
          <p class="mytile">{{item.title}}</p>
@@ -9,10 +9,12 @@
         </div>
     </li>
   </ul>
+  <Tips ref="mytips"></Tips>
 </div>
 </template>
 
 <script>
+import Tips from "./Tips.vue";
 export default {
   name:"Song_sheet",
   data(){
@@ -24,6 +26,14 @@ export default {
   mounted(){
 
 
+  },
+  components:{
+  Tips
+  },
+  methods:{
+    goSheet(){
+      this.$refs.mytips.initMy("歌单详情页未开放");
+    }
   }
 }
 </script>

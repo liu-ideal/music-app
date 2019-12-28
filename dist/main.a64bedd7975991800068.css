@@ -1,0 +1,57 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to  {
+  opacity: 0;
+} */
+.fade-enter[data-v-dc87507c]{
+opacity: 0;
+}
+.fade-enter-active[data-v-dc87507c]{
+transition-property: opacity;
+transition-duration: 2s;
+transition-timing-function: ease-in;
+}
+.fade-enter-to[data-v-dc87507c]{
+opacity: 1;
+}
+.fade-leave[data-v-dc87507c]{
+opacity: 1;
+}
+.fade-leave-active[data-v-dc87507c]{
+  transition-property: opacity;
+  transition-duration: 2s;
+  transition-timing-function: ease-in;
+}
+.fade-leave-to[data-v-dc87507c]{
+  opacity: 0;
+}
+

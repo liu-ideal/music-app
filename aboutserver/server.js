@@ -40,20 +40,20 @@ http.createServer(function(req,res){
       }else if(isSongSheetList(urlObj.pathname)){
         getServerData("http",`http://m.kugou.com/plist/list/${urlObj.query}?json=true`).then((data)=>{responseObj.end(data)});
       }else if(isRecommend(urlObj.pathname)){
-        console.log("recommend");
+        //console.log("recommend");
         getServerData("https",`https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-
 8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472`).then((data)=>{responseObj.end(data)});
       }else if(isSearch(urlObj.pathname)){
-        console.log("search",urlObj.query);
+        //console.log("search",urlObj.query);
         getServerData("https",`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=10&w=${urlObj.query}`).then((data)=>{
           responseObj.end(data)
         });
       }else if(isTopList(urlObj.pathname)){
-        console.log("toplist");
+        //console.log("toplist");
         getServerData("https",`https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-
 8&outCharset=utf-8%C2%ACice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923`).then((data)=>{responseObj.end(data)});
       }else if(isPlayUrl(urlObj.pathname)){
-         console.log("playurl");
+         //console.log("playurl");
          getServerData("https",`https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?
 format=json205361747&platform=yqq&cid=205361747&songmid=${urlObj.query}&filename=C400${urlObj.query}.m4a&guid=126548448`).then((data)=>{responseObj.end(data)});
       }else{
