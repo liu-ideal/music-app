@@ -33,7 +33,7 @@ export default {
       this.$router.push({path:"/"})
     },
     tosearch(){
-      this.axios.get(`http://localhost:8080/music_api/search?${this.value}`).then((res)=>{//请求新歌信息
+      this.axios.get(`/music_api/search?${this.value}`).then((res)=>{//请求新歌信息
         let expr=/callback\((.+)\)/;
         let canJson=res.data.replace(expr,'$1');
         let rusultObj=JSON.parse(canJson);
@@ -58,6 +58,8 @@ export default {
     addToPlaylistChoose(item){
       this.$store.commit("addMusic",item);
       this.$store.commit("changeChoose",item.id);
+      clearInterval(require("../../utils/globalData.js").timer);
+      this.$store.commit("changePlayStatu",false);
     }
   },
   mounted(){

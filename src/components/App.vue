@@ -117,7 +117,7 @@ export default{
     }
   },
   mounted(){
-     this.axios.get("http://localhost:8080/music_api/toplist").then((res)=>{//请求新歌信息
+     this.axios.get("/music_api/toplist").then((res)=>{//请求新歌信息
        let resList=res.data.songlist;
        let containArray=[];
        for (let i = 0; i < resList.length; i++) {
@@ -134,7 +134,7 @@ export default{
        // console.log(this.newSongList);
      });
      // -----------------
-     this.axios.get("http://localhost:8080/music_api/songsheet").then((res)=>{//请求歌单信息
+     this.axios.get("/music_api/songsheet").then((res)=>{//请求歌单信息
        let resList=res.data.plist.list.info;
        let containArray=[];
        let expr=/\{.*\}/;

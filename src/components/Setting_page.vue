@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="wrap" v-leftSlide="hidMyself">
+  <div class="wrap" v-leftSlide="hidMyself" @touchmove.stop="ffjf">
     <ul>
       <li v-for="(item,index) in mylist" :key="index+10" v-tap="goChildRoute.bind(this,item.id,item.title)">
       <div>
@@ -39,7 +39,17 @@ export default {
       this.$router.push({
         name:"setting",params:{id:id,title:title}
       })
+    },
+    ffjf(){
+
     }
+
+  },
+  mounted(){
+    document.addEventListener("touchmove",function(){
+      console.log("hello");
+      //event.preventDefault()
+    },false)
   }
 }
 </script>

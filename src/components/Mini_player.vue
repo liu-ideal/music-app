@@ -106,8 +106,7 @@ export default {
           }else if(i===list.length-1){
               needChooseId=list[0].id;
               this.$store.commit("changeChoose",needChooseId);
-
-
+              this.$store.commit("changePlayStatu",false);
           }
         }
       }
@@ -182,6 +181,9 @@ export default {
            this.showMyself=true;
          }
         require("../../utils/globalData.js").MiniPlayer=this;
+  },
+  created(){
+    console.log(document);
   },
   components:{
     Progress

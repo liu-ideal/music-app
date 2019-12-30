@@ -53,9 +53,34 @@ export default {
    },
    toPlay(item){
      this.$store.commit("changeChoose",item.id);
+     clearInterval(require("../../utils/globalData.js").timer);
+     this.$store.commit("changePlayStatu",false);
    },
    deleteOneSong(item){
      this.$store.commit("deleteOneSong",item.id)
+   },
+   callback(data){
+       let result=data.data.items[0];
+       let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
+       this.audioSrc=songUrl;
+       this.$nextTick(function(){
+         console.log("1");
+         this.$store.commit("changePlayStatu",true);
+       })
+   },
+   setAudioSrc(songmid){
+       if(this.$refs.myaudio){
+         if(document.getElementById("yes")){
+           document.getElementById("yes").remove();
+         }
+        let myscript= document.createElement("script");
+        myscript.setAttribute("charset","utf-8");
+        myscript.setAttribute("id","yes");
+        window.musiccallback=this.callback;
+        let mysrc=require("../../utils/globalData.js").getJsonpUrl(songmid,"musiccallback");
+        myscript.setAttribute("src",mysrc);
+        document.body.appendChild(myscript);
+       }
    }
   },
   computed:{
@@ -76,15 +101,16 @@ export default {
       console.log("Toplay");
       this.$store.commit("setCurrentSong",this.getCurrentSong(newvalue));
       let songmid=this.getCurrentSong(newvalue).src;
-      this.axios.get(`http://localhost:8080/music_api/playurl?${songmid}`).then((res)=>{//请求新歌信息
-        let result=res.data.data.items[0];
-        let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
-        this.audioSrc=songUrl;
-        this.$nextTick(function(){
-          console.log("1");
-          this.$store.commit("changePlayStatu",true);
-        })
-      });
+       this.setAudioSrc(songmid);
+      // this.axios.get(`http://localhost:8080/music_api/playurl?${songmid}`).then((res)=>{//请求新歌信息
+      //   let result=res.data.data.items[0];
+      //   let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
+      //   this.audioSrc=songUrl;
+      //   this.$nextTick(function(){
+      //     console.log("1");
+      //     this.$store.commit("changePlayStatu",true);
+      //   })
+      // });
     },
     "$store.state.isPlay":function(){
       if(this.$store.state.isPlay){

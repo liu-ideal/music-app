@@ -21,7 +21,7 @@ export default {
     Song_sheet,Common_header_to_page
   },
   mounted(){
-    this.axios.get("http://localhost:8080/music_api/songsheet").then((res)=>{//请求歌单信息
+    this.axios.get("/music_api/songsheet").then((res)=>{//请求歌单信息
       let resList=res.data.plist.list.info;
       let containArray=[];
       let expr=/\{.*\}/;

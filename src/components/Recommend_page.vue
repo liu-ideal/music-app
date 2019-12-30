@@ -24,7 +24,7 @@ export default {
  Common_header_to_page,Song_list
  },
  mounted(){
-   this.axios.get("http://localhost:8080/music_api/recommend").then((res)=>{//请求歌信息
+   this.axios.get("/music_api/recommend").then((res)=>{//请求歌信息
      console.log(res);
      let resList=res.data.songlist;
      let containArray=[];

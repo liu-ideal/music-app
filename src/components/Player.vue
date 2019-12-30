@@ -106,10 +106,12 @@ export default {
         if(list[i].id===idCurrent){
           if(list[i+1]){
             needChooseId=list[i+1].id;
-            this.$store.commit("changeChoose",needChooseId)
+            this.$store.commit("changeChoose",needChooseId);
+            this.$store.commit("changePlayStatu",false);
           }else if(i===list.length-1){
               needChooseId=list[0].id;
               this.$store.commit("changeChoose",needChooseId);
+              this.$store.commit("changePlayStatu",false);
           }
         }
       }
