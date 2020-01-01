@@ -41,12 +41,11 @@ export default {
       this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
     },
     "$store.state.isPlay":function(){
-      console.log("caoniama");
       clearInterval(this.timer);
       clearInterval(require("../../utils/globalData.js").timer);
       if(this.$store.state.isPlay){
         this.startRotate(this.deg);
-        console.log("yes");
+
         if(!this.$store.state.audioObj.duration){
           console.log("nn");
           this.$store.state.audioObj.addEventListener("durationchange",this.jjjj,false)
@@ -127,18 +126,18 @@ export default {
     jjjj(){
       this.$store.state.audioObj.removeEventListener("durationchange",this.jjjj);
       this.$store.commit("changetotalTime",this.formatTime(this.$store.state.audioObj.duration));
-      console.log("jbmm");
+
       clearInterval(require("../../utils/globalData.js").timer);
       require("../../utils/globalData.js").timer=setInterval(()=>{
-        this.setTimejindu();
+
         this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
-        console.log("timerTwo");
+
         if(this.$store.state.audioObj.paused){
-          console.log("pause");
+
           this.$store.commit("changePlayStatu",false)
         }
         if(this.$store.state.audioObj.ended){
-          console.log("end");
+        
           this.$store.commit("changePlayStatu",false)
         }
       },1000)

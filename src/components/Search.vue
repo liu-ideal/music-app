@@ -2,7 +2,7 @@
   <div class="wrap">
     <div class="my_header">
       <span class="back" v-tap="goback"></span>
-      <p class="my_title"><input type="text" name="" v-model="value" placeholder="输入歌曲名称" ref="myinput" @keyup.enter="tosearch"></p>
+      <p class="my_title"><input type="text" name="" v-model="value" placeholder="输入歌曲名称" ref="myinput" @keyup.enter="tosearch" @focus="hidMini" @blur="showMini"></p>
       <p class="my_right" v-tap="tosearch">搜索</p>
     </div>
     <div class="content">
@@ -33,6 +33,7 @@ export default {
       this.$router.push({path:"/"})
     },
     tosearch(){
+      if(!this.value){return};
       this.axios.get(`/music_api/search?${this.value}`).then((res)=>{//请求新歌信息
         let expr=/callback\((.+)\)/;
         let canJson=res.data.replace(expr,'$1');
@@ -60,7 +61,18 @@ export default {
       this.$store.commit("changeChoose",item.id);
       clearInterval(require("../../utils/globalData.js").timer);
       this.$store.commit("changePlayStatu",false);
+    },
+    hidMini(){
+      if(require("../../utils/globalData.js").MiniPlayer){
+        require("../../utils/globalData.js").MiniPlayer.showMyself=false;
+      }
+    },
+    showMini(){
+      if(require("../../utils/globalData.js").MiniPlayer){
+        require("../../utils/globalData.js").MiniPlayer.showMyself=true;
+      }
     }
+
   },
   mounted(){
     this.$refs.myinput.focus();
