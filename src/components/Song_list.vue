@@ -1,5 +1,11 @@
 <template lang="html">
 <div class="wrap">
+  <div class="totop" v-show="totopShow" v-tap="totop">
+
+  </div>
+  <div class="lod" v-if="list.length>0?false:true">
+
+  </div>
   <ul>
     <li v-for="(item,index) in list" :key="item.id">
       <span class="add_to_playlist" v-tap="addToPlaylist.bind(this,item)"></span>
@@ -22,11 +28,19 @@ export default {
   name:"Song_list",
   data(){
     return{
-
+        totopShow:false
     }
   },
   props:["list"],
   mounted(){
+    window.addEventListener("scroll",(e)=>{
+      let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+      if(scrollTop>400){
+        this.totopShow=true
+      }else{
+        this.totopShow=false
+      }
+    },false)
     //console.log(this.list);
   },
   components:{
@@ -47,6 +61,16 @@ export default {
       this.$store.commit("changeChoose",item.id);
       clearInterval(require("../../utils/globalData.js").timer);
       this.$store.commit("changePlayStatu",false);
+    },
+    totop(){
+      document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+      if(document.documentElement.scrollTop){
+        document.documentElement.scrollTop=0;
+      }else if(window.pageYOffset){
+        window.pageYOffset=0
+      }else{
+        document.body.scrollTop=0
+      }
     }
   }
 }
@@ -54,6 +78,24 @@ export default {
 
 <style lang="scss" scoped>
 .wrap{
+  .totop{
+    position: fixed;
+    bottom: 48%;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-image: url(../../assets/images/totop.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid rgb(1,132,127);
+  }
+  .lod{
+    background-image: url(../../assets/images/lod.gif);
+    height:60vh;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   ul{
     @media screen and(max-width: 420px){
       font-size: 15px;

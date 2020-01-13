@@ -47,17 +47,17 @@ export default {
         this.startRotate(this.deg);
 
         if(!this.$store.state.audioObj.duration){
-          console.log("nn");
+          //console.log("nn");
           this.$store.state.audioObj.addEventListener("durationchange",this.jjjj,false)
         }else{
-          console.log("non");
+          //console.log("non");
           require("../../utils/globalData.js").timer=setInterval(()=>{
             this.setTimejindu();
             this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
             if(this.$store.state.audioObj.paused){
               this.$store.commit("changePlayStatu",false)
             }
-            console.log("timerTwo");
+            //console.log("timerTwo");
           },1000)
         }
       }else {
@@ -137,7 +137,7 @@ export default {
           this.$store.commit("changePlayStatu",false)
         }
         if(this.$store.state.audioObj.ended){
-        
+
           this.$store.commit("changePlayStatu",false)
         }
       },1000)
@@ -182,7 +182,7 @@ export default {
         require("../../utils/globalData.js").MiniPlayer=this;
   },
   created(){
-    console.log(document);
+    //console.log(document);
   },
   components:{
     Progress

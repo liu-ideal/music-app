@@ -64,7 +64,7 @@ export default {
   },
   watch:{
     "$store.state.currentSong":function(newvalue){
-      console.log("ooo");
+      //console.log("ooo");
       this.song=newvalue;
       this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
     },

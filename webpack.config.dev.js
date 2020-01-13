@@ -84,7 +84,7 @@ module.exports={
     hot:true,
     host:"127.0.0.1",
     proxy: {
-  "/": "http://localhost:8080"
+  "/": "http://103.210.237.23"
 }
   }
 }

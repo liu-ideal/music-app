@@ -1,5 +1,8 @@
 <template lang="html">
 <div class="wrap">
+  <div class="lod" v-if="list.length>0?false:true">
+
+  </div>
   <ul>
     <li v-for="(item,index) in list" :key="item.id" v-tap="goSheet">
         <img :src="item.img" alt="no">
@@ -43,6 +46,12 @@ export default {
   @return ($rem/375)*1rem;
 }
 .wrap{
+  .lod{
+    background-image: url(../../assets/images/lod.gif);
+    height:60vh;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   ul{
     font-size: setRem(15);
     color: #000;

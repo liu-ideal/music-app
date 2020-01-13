@@ -25,7 +25,7 @@ export default {
  },
  mounted(){
    this.axios.get("/music_api/recommend").then((res)=>{//请求歌信息
-     console.log(res);
+     //console.log(res);
      let resList=res.data.songlist;
      let containArray=[];
      for (let i = 0; i < resList.length; i++) {

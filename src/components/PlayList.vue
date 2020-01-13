@@ -64,7 +64,7 @@ export default {
        let songUrl=`http://ws.stream.qqmusic.qq.com/${result.filename}?fromtag=0&guid=126548448&vkey=${result.vkey}`;
        this.audioSrc=songUrl;
        this.$nextTick(function(){
-         console.log("1");
+         //console.log("1");
          this.$store.commit("changePlayStatu",true);
        })
    },
@@ -98,7 +98,7 @@ export default {
   },
   watch:{
     "$store.state.whoIsChoose":function(newvalue,old){
-      console.log("Toplay");
+      //console.log("Toplay");
       this.$store.commit("setCurrentSong",this.getCurrentSong(newvalue));
       let songmid=this.getCurrentSong(newvalue).src;
        this.setAudioSrc(songmid);
@@ -116,7 +116,7 @@ export default {
       if(this.$store.state.isPlay){
         this.$refs.myaudio.getAttribute("src")&&this.$refs.myaudio.play();
 
-        console.log(this.$refs.myaudio.duration,this.$refs.myaudio.readyState,this.$refs.myaudio.buffered,this.$refs.myaudio.currentTime);
+        //console.log(this.$refs.myaudio.duration,this.$refs.myaudio.readyState,this.$refs.myaudio.buffered,this.$refs.myaudio.currentTime);
       }else {
         this.$refs.myaudio.getAttribute("src")&&this.$refs.myaudio.pause();
       }

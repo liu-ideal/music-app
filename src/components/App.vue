@@ -62,7 +62,8 @@ export default{
       SettingPageShow:require("../../utils/globalData.js").SettingPageShow,
       newSongList:[],
       songSheet:[],
-      currentTabComponent:"Song_list"
+      currentTabComponent:"Song_list",
+      totopShow:false
     }
   },
   components:{
@@ -163,6 +164,7 @@ export default{
   @return ($rem/375)*1rem;
 }
 .wrap{
+  
   font-size: setRem(14);
   .rotat_play{
     width: setRem(375);
