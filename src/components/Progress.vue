@@ -20,6 +20,8 @@ export default {
   },
   watch:{
     jindu(newvalue){
+      console.log(newvalue);
+      
 
       this.setPosition(newvalue)
     }

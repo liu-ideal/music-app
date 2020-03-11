@@ -41,6 +41,8 @@ export default {
       this.imgUrl=`http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_${this.song.img}_0.jpg`;
     },
     "$store.state.isPlay":function(){
+      console.log("ischangeisplay");
+      
       clearInterval(this.timer);
       clearInterval(require("../../utils/globalData.js").timer);
       if(this.$store.state.isPlay){
@@ -52,6 +54,8 @@ export default {
         }else{
           //console.log("non");
           require("../../utils/globalData.js").timer=setInterval(()=>{
+            console.log("jinduok");
+            
             this.setTimejindu();
             this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
             if(this.$store.state.audioObj.paused){
@@ -129,6 +133,7 @@ export default {
 
       clearInterval(require("../../utils/globalData.js").timer);
       require("../../utils/globalData.js").timer=setInterval(()=>{
+        this.setTimejindu();
 
         this.$store.commit("changestartTime",this.formatTime(this.$store.state.audioObj.currentTime));
 
